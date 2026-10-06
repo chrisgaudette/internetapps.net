@@ -1,0 +1,4 @@
+Period,Finding ID,Action,Owner,Priority,Dependencies,Effort estimate,Success measure,Status
+Days 1-30,F-01,[Validate and address highest-priority risk],[Owner],[High],[Dependency],[Team to estimate],[Observable outcome],Proposed
+Days 31-60,F-02,[Deliver next improvement],[Owner],[Medium],[Dependency],[Team to estimate],[Observable outcome],Proposed
+Days 61-90,F-03,[Verify improvement and document operating process],[Owner],[Medium],[Dependency],[Team to estimate],[Observable outcome],Proposed
