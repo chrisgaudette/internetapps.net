@@ -12,4 +12,4 @@ Replace bracketed fields. Mark unknowns explicitly rather than treating them as 
 
 These templates guide technical discussion. A completed review should reflect the actual system, stakeholder goals, available evidence, and agreed scope.
 
-Internet Apps · Chris Gaudette · internetapps.net@gmail.com
+Internetapps.net team · internetapps.net@gmail.com
