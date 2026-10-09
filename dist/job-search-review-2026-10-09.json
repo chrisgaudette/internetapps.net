@@ -1,0 +1,231 @@
+{
+  "reviewed_on": "2026-10-09",
+  "constraints": "C2C/1099 only; up to 40 hours/week; fully remote from Connecticut; no mandatory travel or office visits; strictly above USD $100/hour",
+  "daily_target": 20,
+  "new_verified_qualifying_matches": 0,
+  "new_formal_applications": 0,
+  "new_terms_inquiries": 1,
+  "qualification_policy": "Require documented resume evidence for all mandatory criteria and target at least 95% coverage. No numerical score assigned while mandatory facts or commercial terms remain unresolved. Reviewed leads are not qualifying matches or applications.",
+  "roles": [
+    {
+      "company": "High Trail",
+      "role": "Software Architect (Cross-Platform) #1994",
+      "url": "https://www.hightrail.com/job/1994-software-architect/",
+      "rate": "120–150 displayed; hourly USD units unconfirmed",
+      "contract": "C2C/1099 unconfirmed",
+      "status": "Inquiry sent",
+      "overlap": "Architecture governance, cloud modernization, APIs, event-driven integration, observability and executive communication.",
+      "blocker": "Posting says both remote and remote/hybrid; hourly pay, C2C/1099 and Connecticut/no-travel terms unconfirmed.",
+      "next_step": "Await recruiter confirmation before submitting resume."
+    },
+    {
+      "company": "Deloitte",
+      "role": "Cloud Architect Contractor — GCP Data & Analytics",
+      "url": "https://www.careerbuilder.com/job-details/cloud-architect-contractor-houston-tx--e8181d2c-d3f7-438b-9116-9a9288578197",
+      "rate": "$150–160/hour in syndication",
+      "contract": "Contract; C2C/1099 unconfirmed",
+      "status": "Held",
+      "overlap": "GCP modernization and enterprise architecture.",
+      "blocker": "Required depth in BigQuery, Dataflow, Dataproc, Dataplex, Composer, Looker and Vertex AI is not established; original posting and contract terms need verification.",
+      "next_step": "Require primary posting and project evidence for mandatory stack."
+    },
+    {
+      "company": "Employer unverified — RemoteNex listing",
+      "role": "Senior Microsoft Cloud Architect",
+      "url": "https://remotenex.us/job/senior-microsoft-cloud-architect-10-20-hrswk-c2c1099-remote-only-usa",
+      "rate": "Not published",
+      "contract": "C2C/1099 stated by syndicator; 10–20 hours/week",
+      "status": "Held",
+      "overlap": "Azure foundations, networking, identity and AKS.",
+      "blocker": "Original employer and rate unverified; Azure Virtual Desktop experience is not established. Page retrieval denied.",
+      "next_step": "Find employer original and confirm pay and mandatory AVD experience."
+    },
+    {
+      "company": "US Tech Solutions",
+      "role": "Systems Architect — Disaster Recovery #26-25271",
+      "url": "https://www.monster.com/job-openings/systems-architect-disaster-recovery-26-25271-orlando-fl--7f9f1908-395b-48f5-96d6-1026d8f57299",
+      "rate": "$125/hour",
+      "contract": "12-month contract; C2C/1099 unconfirmed",
+      "status": "Held",
+      "overlap": "Cloud architecture, reliability and operations; citizenship requirement supported.",
+      "blocker": "Five years of DR implementation and hands-on specialist recovery tools are not established by resume.",
+      "next_step": "Obtain specific DR project evidence and verify C2C/1099 terms."
+    },
+    {
+      "company": "AfterQuery",
+      "role": "Cloud Engineer Expert",
+      "url": "https://experts.afterquery.com/apply/cloud-engineer-expert",
+      "rate": "$85–165/hour syndicated range; above-$100 rate unconfirmed",
+      "contract": "Independent contractor; 10+ hours/week in syndication",
+      "status": "Held",
+      "overlap": "Cloud infrastructure, IaC, containers and incident-response scenarios.",
+      "blocker": "Original application returned access denial; actual rate unconfirmed; AI evaluation work rather than conventional client consulting.",
+      "next_step": "Verify original opening, accepted rate and consulting scope."
+    },
+    {
+      "company": "Buchanan",
+      "role": "Enterprise AI Platform Architect — Identity, Security & Integration",
+      "url": "https://www.simplyhired.com/job/Zh7wnAaWjT57STuiWxOi-VEr-RJjUOzZc7xgiyZuzVYciiJnsvP_3w",
+      "rate": "$120–130/hour in syndication",
+      "contract": "90-day project; C2C/1099 unconfirmed",
+      "status": "Held",
+      "overlap": "Cloud, containers, identity, security and integration.",
+      "blocker": "Production AI platform delivery is not established; original posting and contract terms unverified.",
+      "next_step": "Verify original requirements and obtain relevant project evidence."
+    },
+    {
+      "company": "Cardinal Integrated Technologies",
+      "role": "Ecommerce Solution Architect",
+      "url": "https://www.flexjobs.com/gjw/cardinal-integrated-technologies/ecommerce-solution-architect/publicjobs?id=632d64f7-396c-40f2-b7f1-7a522e253427",
+      "rate": "$115/hour in syndication",
+      "contract": "C2C/1099; six-month contract to hire in syndication",
+      "status": "Held",
+      "overlap": "Solution architecture, integrations and application architecture.",
+      "blocker": "Older January posting; primary availability unverified; specialized ecommerce experience not established.",
+      "next_step": "Verify original active posting and required ecommerce experience."
+    },
+    {
+      "company": "NearShore Cyber",
+      "role": "Senior Azure Security Architect",
+      "url": "https://remotive.com/remote/jobs/all-others/senior-azure-security-architect-6012949",
+      "rate": "$95–110/hour; above-$100 rate unconfirmed",
+      "contract": "C2C/1099; part-time",
+      "status": "Excluded — skill gaps",
+      "overlap": "Azure security architecture and cloud governance.",
+      "blocker": "Mandatory Palo Alto/Prisma, VMware NSX/HCX, AVS and EHR-related security experience not established.",
+      "next_step": "Reconsider only with verified specialist experience and above-$100 rate."
+    },
+    {
+      "company": "Pixel4Hub",
+      "role": "Sr. Forward Deployed Engineer",
+      "url": "https://pixel4hub.com/job/sr-forward-deployed-engineer-2",
+      "rate": "$100–120/hour; above-$100 rate unconfirmed",
+      "contract": "C2C/1099; 6–8 months",
+      "status": "Excluded — skill gaps",
+      "overlap": "AWS, integration and infrastructure as code.",
+      "blocker": "Production agentic AI/Bedrock/Claude Code and required full-stack depth not established.",
+      "next_step": "Require verified production AI and stack evidence before reconsideration."
+    },
+    {
+      "company": "Sierra",
+      "role": "Windchill Solution Architect",
+      "url": "https://www.dice.com/job-detail/0004948e-db64-48bc-862e-2a8973b56f90",
+      "rate": "$110–120/hour",
+      "contract": "C2C; 12 months",
+      "status": "Excluded — skill gaps",
+      "overlap": "General solution architecture only.",
+      "blocker": "Mandatory Windchill/PTC PLM experience not established.",
+      "next_step": "Do not apply on current resume evidence."
+    },
+    {
+      "company": "Brooksource",
+      "role": "ServiceNow Architect",
+      "url": "https://www.dice.com/job-detail/14303b3b-871b-4bca-a7d2-e9f66205d152",
+      "rate": "$110–125/hour",
+      "contract": "Independent or W-2; 12 months",
+      "status": "Excluded — skill gaps",
+      "overlap": "Integration, AWS and architecture governance.",
+      "blocker": "Deep ServiceNow implementation across Flow Designer, IntegrationHub and platform modules not established.",
+      "next_step": "Do not claim ServiceNow implementation experience."
+    },
+    {
+      "company": "Beechwood Computing",
+      "role": "Orbus Infinity Architect",
+      "url": "https://www.dice.com/job-detail/601e2b6c-79c9-4e05-8974-56867e740c4c",
+      "rate": "$115/hour",
+      "contract": "C2C/1099; three months",
+      "status": "Excluded — skill gaps",
+      "overlap": "Enterprise architecture and governance.",
+      "blocker": "Five years of Orbus iServer/Infinity experience not established.",
+      "next_step": "Do not apply on current resume evidence."
+    },
+    {
+      "company": "J C Corporations",
+      "role": "GCP AI Engineer / Architect",
+      "url": "https://www.dice.com/job-detail/b545ab19-c41f-4e10-8c41-b7e2800fb66c",
+      "rate": "$100–150/hour in cached listing",
+      "contract": "C2C/1099 in cached listing",
+      "status": "Closed / unavailable",
+      "overlap": "GCP cloud architecture.",
+      "blocker": "Fresh original retrieval returned 410 Gone; mandatory production Vertex AI/ADK/MCP experience not established.",
+      "next_step": "Exclude unless employer supplies an active repost and qualifications are supported."
+    },
+    {
+      "company": "Nava",
+      "role": "Azure Architect — 1099",
+      "url": "https://jobs.abundancenetwork.com/companies/nava/jobs/84363946-azure-architect-1099",
+      "rate": "$100–130/hour",
+      "contract": "1099",
+      "status": "Closed",
+      "overlap": "Azure landing zones, identity, networking and architecture standards.",
+      "blocker": "Listing explicitly says no longer accepting applications.",
+      "next_step": "Watch for an active original repost; do not apply to the closed listing."
+    },
+    {
+      "company": "REV",
+      "role": "Enterprise Architect",
+      "url": "https://revllc.applytojob.com/apply/hAzv9Enj0y/Enterprise-Architect",
+      "rate": "$90–120/hour in cached listing",
+      "contract": "1099 individual; C2C excluded in cached listing",
+      "status": "Closed / travel conflict",
+      "overlap": "Enterprise architecture and cloud modernization.",
+      "blocker": "Original returned 410 Gone; cached description requires Washington onsite attendance as needed.",
+      "next_step": "Exclude under current remote/no-travel constraint."
+    },
+    {
+      "company": "Precision Federal",
+      "role": "Cloud Solutions Architect — AWS / Azure / GCP",
+      "url": "https://precisionfederal.com/careers/cloud-solutions-architect-aws-azure-gcp",
+      "rate": "$60–95/hour",
+      "contract": "1099",
+      "status": "Excluded — pay",
+      "overlap": "Multi-cloud architecture and modernization.",
+      "blocker": "Published maximum is below the strictly above-$100 minimum.",
+      "next_step": "Do not apply under current compensation requirement."
+    },
+    {
+      "company": "Cloud Destinations",
+      "role": "Principal Architect — Infrastructure & Platform",
+      "url": "https://www.dice.com/job-detail/c3a2b875-569e-48fe-9725-fd568898d04d",
+      "rate": "$110–120/hour in cached listing",
+      "contract": "W-2 only; C2C excluded",
+      "status": "Excluded — W-2",
+      "overlap": "Cloud foundations and platform architecture.",
+      "blocker": "Explicit W-2 only conflicts with C2C/1099-only instruction; fresh page inaccessible.",
+      "next_step": "Do not apply unless employer confirms a C2C/1099 exception."
+    },
+    {
+      "company": "GDH",
+      "role": "Java Backend Engineer #113509",
+      "url": "https://www.dice.com/job-detail/996d927d-b2bf-4be2-9dc3-bf4af7852c25",
+      "rate": "$75–80/hour in description",
+      "contract": "C2C",
+      "status": "Excluded — pay",
+      "overlap": "Java, AWS, event-driven modernization, governance and reliability.",
+      "blocker": "Description's published pay is below minimum despite a DOE header.",
+      "next_step": "Do not apply under current compensation requirement."
+    },
+    {
+      "company": "USG",
+      "role": "Java/Python AWS Full Stack Developer",
+      "url": "https://www.dice.com/job-detail/1cedefb8-fb49-4284-95b3-1dc7afb0d828",
+      "rate": "DOE; above-$100 pay unverified",
+      "contract": "C2C in cached listing",
+      "status": "Closed",
+      "overlap": "Java, Python and AWS.",
+      "blocker": "Current posting says the job is no longer available.",
+      "next_step": "Exclude unless a verified active repost is found."
+    },
+    {
+      "company": "Syntrux",
+      "role": "Principal Technical Solution Architect — P&C #9104994",
+      "url": "https://www.dice.com/job-detail/305cb836-3d4e-4e3f-b2c8-8a6cfef9fb0c",
+      "rate": "$80–100/hour",
+      "contract": "C2C; two years",
+      "status": "Excluded — pay / duplicate risk",
+      "overlap": "P&C insurance, enterprise solution architecture and integration.",
+      "blocker": "Published ceiling does not exceed $100; same Hanover client role may already have been submitted through another recruiter.",
+      "next_step": "Do not apply or allow duplicate client representation."
+    }
+  ]
+}
