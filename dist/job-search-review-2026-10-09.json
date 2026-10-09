@@ -1,6 +1,6 @@
 {
   "reviewed_on": "2026-10-09",
-  "constraints": "C2C/1099 only; up to 40 hours/week; fully remote from Connecticut; no mandatory travel or office visits; strictly above USD $100/hour",
+  "constraints": "C2C only through InternetApps.net; exclude W-2 and individual 1099; up to 40 hours/week; fully remote from Connecticut; no mandatory travel or office visits; strictly above USD $100/hour",
   "daily_target": 20,
   "new_verified_qualifying_matches": 0,
   "new_formal_applications": 0,
@@ -16,7 +16,7 @@
       "status": "Inquiry sent",
       "overlap": "Architecture governance, cloud modernization, APIs, event-driven integration, observability and executive communication.",
       "blocker": "Posting says both remote and remote/hybrid; hourly pay, C2C/1099 and Connecticut/no-travel terms unconfirmed.",
-      "next_step": "Await recruiter confirmation before submitting resume."
+      "next_step": "Await confirmation of C2C through InternetApps.net before submitting resume."
     },
     {
       "company": "Deloitte",
