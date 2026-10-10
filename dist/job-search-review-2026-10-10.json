@@ -1,0 +1,182 @@
+{
+  "reviewed_on": "2026-10-10",
+  "constraints": "C2C only through InternetApps.net; up to 40 hours/week; fully remote from Connecticut; no mandatory travel or office visits; compensation strictly above USD $100/hour",
+  "daily_target": 20,
+  "new_verified_qualifying_matches": 0,
+  "new_formal_applications": 0,
+  "new_terms_inquiries": 0,
+  "qualification_policy": "Target at least 95% documented criteria coverage with no unresolved mandatory gaps. No numeric score is assigned to excluded or unverified leads. This reviewed list is not a list of qualifying jobs or applications.",
+  "recruiter_updates": [
+    {
+      "company": "Techariser",
+      "role": "Principal Technical Solution Architect / Enterprise Solution Architect — P&C #9104994",
+      "received_on": "2026-10-09",
+      "reviewed_on": "2026-10-10",
+      "status": "Rate below target; not accepted",
+      "rate": "Maximum $100/hour C2C confirmed by recruiter",
+      "next_step": "No acceptance or withdrawal sent. Do not duplicate the client submission. Only reconsider if an above-$100 C2C rate is confirmed."
+    },
+    {
+      "company": "High Trail",
+      "role": "Software Architect #1994",
+      "status": "Awaiting terms confirmation",
+      "next_step": "No new reply found. Retain existing inquiry; do not resend one day later."
+    }
+  ],
+  "roles": [
+    {
+      "company": "Catch Resource Management",
+      "role": "Acquisition Integration Business Analyst #978466",
+      "url": "https://www.catchgroup.com/opportunity/contract-acquisition-integration-business-analyst-in-remote-based/",
+      "rate": "$120–140/hour C2C",
+      "contract": "C2C, primarily remote US",
+      "status": "Excluded — mandatory domain gaps",
+      "overlap": "Integration planning, stakeholder communication and enterprise transformation.",
+      "blocker": "Original requires direct global M&A integration and corporate Treasury/Finance business-analysis experience; not documented in resume. Primarily remote does not verify no travel.",
+      "next_step": "Reconsider only with verified M&A/Treasury project evidence and fully remote no-travel confirmation."
+    },
+    {
+      "company": "The Planet Group",
+      "role": "Azure Engineer — firm August 17 start",
+      "url": "https://bebee.com/us/jobs/azure-engineer-start-date-8-17-the-planet-group--t7xk-797624280",
+      "rate": "$105–125/hour in syndication",
+      "contract": "C2C self-inc or W-2 in syndication; three months",
+      "status": "Held — stale timing / unverified original",
+      "overlap": "Azure networking, private connectivity, landing zones, Terraform and cloud migrations.",
+      "blocker": "Syndication specifies a firm August 17, 2026 start that has passed. Active original not located. Hands-on PowerShell and detailed storage implementation not established.",
+      "next_step": "Require an active original/repost and specific implementation evidence; no application submitted."
+    },
+    {
+      "company": "Stott and May",
+      "role": "MuleSoft Integration Architect — Healthcare Systems #79384",
+      "url": "https://find.stottandmay.com/job/mulesoft-integration-architect-healthcare-systems-79384",
+      "rate": "$90–115/hour C2C; above-$100 rate not confirmed",
+      "contract": "C2C, part-time remote",
+      "status": "Excluded — mandatory specialist gaps",
+      "overlap": "Integration architecture, healthcare, observability, runbooks, CI/CD and technical leadership.",
+      "blocker": "Original requires five years hands-on Mule 4/DataWeave/Anypoint, three years production HL7 v2 and a current MuleSoft architect certification. None established by resume.",
+      "next_step": "Do not apply on current evidence or infer MuleSoft certification from integration experience."
+    },
+    {
+      "company": "Simple Solutions",
+      "role": "Senior OpenShift Automation Engineer",
+      "url": "https://www.dice.com/job-detail/b90c1e65-38bf-4c1d-8fc0-7c8ee920f0c9",
+      "rate": "Up to $110/hour; exact rate unconfirmed",
+      "contract": "C2C available in prior listing; 12 months",
+      "status": "Closed",
+      "overlap": "OpenShift/Kubernetes, Terraform, Azure DevOps and automation.",
+      "blocker": "Current primary recruiter posting says the job is no longer available.",
+      "next_step": "Do not apply unless a current original repost is verified."
+    },
+    {
+      "company": "BDM Squared",
+      "role": "Fractional Senior ERP Strategy and Modernization Consultant",
+      "url": "https://findfractionaljobs.com/job/fractional-senior-erp-strategy-and-modernization-consultant/",
+      "rate": "$125–150/hour in listing",
+      "contract": "Independent contractor; C2C unconfirmed; 5–30 hours/week",
+      "status": "Excluded — travel / specialist gaps",
+      "overlap": "Enterprise modernization roadmaps, executive advice, integrations and regulated industries.",
+      "blocker": "Requires travel for workshops and milestones and ten years of ERP systems experience. Specific ERP implementation/procurement depth not documented. Application link routes to Indeed.",
+      "next_step": "Do not apply under current no-travel rule or use Indeed application route."
+    },
+    {
+      "company": "RITWIK Infotech",
+      "role": "Senior Cloud & Data Architect #9072636",
+      "url": "https://www.dice.com/job-detail/dab313c9-4950-407a-87d4-c1b45da1107b",
+      "rate": "$70–80/hour",
+      "contract": "Description says C2C; header says full-time",
+      "status": "Excluded — pay / mandatory gaps",
+      "overlap": "Multi-cloud foundations, reference architecture, migration, Terraform and containers.",
+      "blocker": "Rate below minimum. Required hands-on Snowflake/Databricks/Spark and production RAG/LangChain/LangGraph not documented.",
+      "next_step": "Do not apply under current compensation and qualification rules."
+    },
+    {
+      "company": "Holistic Partners",
+      "role": "Senior Security Governance, Risk & Compliance Architect #33570",
+      "url": "https://holistic.dev.vinove.com/recruiter/?user_id=z5G7h3l6a1kMvyS65NP3cyFiXsfg-wRg4vHv5lv_uho",
+      "rate": "$100–110/hour on recruiter page; above-$100 rate unconfirmed",
+      "contract": "C2C; remote Boston metadata",
+      "status": "Held — full posting inaccessible",
+      "overlap": "Cloud guardrails, security architecture and enterprise governance.",
+      "blocker": "Full job-detail page inaccessible; all mandatory GRC qualifications and Connecticut/no-travel terms unverified. Recruiter discovery page is hosted on a development subdomain.",
+      "next_step": "Verify current original employer/recruiter posting and every mandatory requirement before outreach or application."
+    },
+    {
+      "company": "StaffRight Associates",
+      "role": "Enterprise Architect — Institutional Client Services",
+      "url": "https://www.dice.com/job-detail/686cce62-5b10-4839-8dbb-28b2d034dc87",
+      "rate": "$110–120/hour",
+      "contract": "W-2 only; six months",
+      "status": "Excluded — W-2 / mandatory domain gap",
+      "overlap": "Enterprise architecture, cloud integration, roadmaps and governance.",
+      "blocker": "Original explicitly requires W-2 direct hire and five years Institutional Client Services experience; not documented.",
+      "next_step": "Do not apply under C2C-only instruction."
+    },
+    {
+      "company": "Cynet Systems",
+      "role": "Digital Architect — Remote / Telecommute #248604-36607",
+      "url": "https://www.dice.com/job-detail/eec24aeb-dc46-4274-9744-e7069ae819c3",
+      "rate": "$110/hour in search index; fresh page omits units/currency",
+      "contract": "C2C; remote/no-travel metadata; 12 months",
+      "status": "Held — conflicting availability / mandatory evidence gap",
+      "overlap": "Degree, cross-functional architecture leadership, enterprise software design, integration/cloud modernization and executive communication.",
+      "blocker": "Fresh retrieval shows a description, while the search index says closed. Required UX/service-design collaboration and specific Agile product-team experience need documentation. Connecticut eligibility and USD hourly pay unverified; other Cynet digital roles are based in Canada.",
+      "next_step": "Ask applicant for UX/service-design project evidence; verify current original availability and US C2C terms before applying."
+    },
+    {
+      "company": "Intone Networks",
+      "role": "ADMS/OMS Solutions Architect",
+      "url": "https://www.glassdoor.com/job-listing/adms-oms-solutions-architect-remote-%E2%80%93-some-travel-to-washington-state-intone-networks-JV_IC1138213_KO0%2C69_KE70%2C85.htm?jl=1010111102767",
+      "rate": "$110–120/hour C2C in syndication",
+      "contract": "C2C; 12+ months in syndication",
+      "status": "Excluded — travel / clearance",
+      "overlap": "General architecture only.",
+      "blocker": "Requires Washington State travel and active SECRET clearance; clearance not documented.",
+      "next_step": "Do not apply under no-travel rule or claim an active clearance."
+    },
+    {
+      "company": "Delta System and Software",
+      "role": "Guidewire Solution Architect — P&C Insurance",
+      "url": "https://dlxonthird.com/office/job/guidewire-solution-architect-with-p-and-c-insurance-at-delta-system-and-software-inc-new-york-ny-UXpVOG5HR2JjRmZVakZNL21NOGNIQmcwUkE9PQ%3D%3D",
+      "rate": "$100–120/hour C2C in syndication",
+      "contract": "C2C/1099 in syndication; hybrid",
+      "status": "Excluded — mandatory onsite",
+      "overlap": "Guidewire-related P&C modernization and integrations.",
+      "blocker": "Requires monthly client visits of 3–10 days; conflicts with fully remote/no-travel requirement. Current original also unverified.",
+      "next_step": "Do not apply under current location constraint."
+    },
+    {
+      "company": "Nexiva",
+      "role": "MuleSoft Integration Architect — Colorado DOT",
+      "url": "https://remotive.com/remote/jobs/software-development/mulesoft-integration-architect-5777894",
+      "rate": "$110/hour C2C in syndication",
+      "contract": "C2C/1099 in syndication; long-term remote",
+      "status": "Excluded — mandatory stack gaps",
+      "overlap": "Enterprise integration, API design, CI/CD and observability.",
+      "blocker": "Hands-on Mule 4, DataWeave, Anypoint and SAP integrations required; not established. Active primary posting unverified.",
+      "next_step": "Do not infer MuleSoft delivery from general middleware experience."
+    },
+    {
+      "company": "GSK ATS posting",
+      "role": "MuleSoft Architect #GSK-9711",
+      "url": "https://talenthire.ceipal.com/GoogleJobs/index/35072/f3e52c300b822a8123e7ace55fe15c08",
+      "rate": "$150/hour C2C in prior listing",
+      "contract": "C2C/1099/W-2; six months in prior listing",
+      "status": "Closed / mandatory stack gap",
+      "overlap": "Integration architecture and governance.",
+      "blocker": "ATS explicitly says no longer accepting resumes. Expert hands-on MuleSoft/SAP integration not established.",
+      "next_step": "Do not apply to the closed posting."
+    },
+    {
+      "company": "Rainier Software Solutions",
+      "role": "Software Engineer contractor network — syndicated lead",
+      "url": "https://talantir.ai/en/opportunities/full-stack-developer/unknown-company/699ca7c6384d6c2d6873ea04",
+      "rate": "Conflicting $50–125 header and $75–150/hour body; unverified",
+      "contract": "C2C/1099 in old syndication; future engagement network",
+      "status": "Held — no verified specific vacancy",
+      "overlap": "Cloud modernization, backend/integration architecture and regulated systems.",
+      "blocker": "Old syndication labels employer unknown. Original company site confirms the firm but no specific current vacancy or accepted rate. React/Next.js/TypeScript expertise not documented.",
+      "next_step": "Do not count a contractor network as a verified open consulting job or apply against unverified terms."
+    }
+  ]
+}
