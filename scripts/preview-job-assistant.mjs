@@ -1,0 +1,5 @@
+import {DatabaseSync} from 'node:sqlite';import {readFileSync} from 'node:fs';import {createServer} from 'node:http';
+const db=new DatabaseSync(':memory:');db.exec(readFileSync('drizzle/0000_job_assistant.sql','utf8'));
+const DB={prepare(sql){return {bind(...args){return {first:async()=>db.prepare(sql).get(...args)||null,run:async()=>({meta:{changes:Number(db.prepare(sql).run(...args).changes)}})};}};}};
+const code=readFileSync('dist/server/index.js');const worker=(await import('data:text/javascript;base64,'+code.toString('base64'))).default;
+createServer(async(req,res)=>{try{const chunks=[];for await(const c of req)chunks.push(c);const body=Buffer.concat(chunks);const request=new Request('http://127.0.0.1:8788'+req.url,{method:req.method,headers:req.headers,...(body.length?{body}: {})});const r=await worker.fetch(request,{DB});res.writeHead(r.status,Object.fromEntries(r.headers));res.end(Buffer.from(await r.arrayBuffer()));}catch(e){res.writeHead(500);res.end(e.message);}}).listen(8788,'127.0.0.1',()=>console.log('Local: http://127.0.0.1:8788/jobs'));

@@ -1,0 +1,1 @@
+CREATE TABLE job_assistant_state (id TEXT PRIMARY KEY NOT NULL, revision INTEGER DEFAULT 0 NOT NULL, payload TEXT NOT NULL);
