@@ -1,0 +1,141 @@
+{
+  "date": "2026-10-10",
+  "phase": "Additional search after application-count review",
+  "new_verified_qualifying_matches": 0,
+  "new_applications": 0,
+  "new_terms_inquiries": 2,
+  "leads": [
+    {
+      "company": "CosMicIT GmbH",
+      "title": "Google Cloud Engineer / Senior Solution Architect — Remote U.S.",
+      "source": "https://www.freelancermap.com/project/google-cloud-engineer-und-senior-solution-architect-remote-u-s",
+      "rate": "Not published; strictly above USD100/hour requested",
+      "contract": "Posting says permanent; C2C option unconfirmed",
+      "status": "Terms inquiry sent; not an application",
+      "evidence": "Both broad mandatory experience requirements have resume evidence: 5+ years IT and cloud engineering/architecture/migration experience. GCP 71-app migration, GKE, Terraform, Kubernetes, cloud governance and stakeholder leadership overlap.",
+      "gaps": "Current requisition, C2C, rate, Connecticut/no-travel eligibility, hours and any specific mandatory tooling must be confirmed.",
+      "next_step": "Await recruiter reply before a formal application."
+    },
+    {
+      "company": "Diagonal Matrix Ltd",
+      "title": "Application Developer",
+      "source": "https://www.glassdoor.co.uk/Overview/Working-at-Diagonal-Matrix-EI_IE9046256.11%2C26.htm",
+      "rate": "USD105–115/hour in syndication",
+      "contract": "C2C, 100% remote U.S. in syndication",
+      "status": "Terms inquiry sent; not an application",
+      "evidence": "Java, C#/.NET, Python, REST APIs, SQL/NoSQL, enterprise healthcare/insurance, cloud and modernization overlap. Company website and published email independently checked.",
+      "gaps": "Original current job description unavailable; syndication is older. Actual availability, no travel, mandatory frontend and production AI requirements need confirmation.",
+      "next_step": "Await hiring-team routing and current original requirements."
+    },
+    {
+      "company": "Alliance IT",
+      "title": "AWS Cloud Architect — Remote 100%",
+      "source": "https://www.dice.com/job-detail/8b61653e-60e2-478b-b005-2358977e6e45",
+      "rate": "USD110–120/hour in cached posting",
+      "contract": "Independent/W2; C2C unconfirmed",
+      "status": "Removed — original returned 410",
+      "evidence": "AWS, Terraform, cloud architecture, programming, stakeholder communication overlap.",
+      "gaps": "Fresh web retrieval and independent public-HTML GET both returned HTTP410; cached posted-one-hour text is not proof of a current vacancy.",
+      "next_step": "Exclude unless a current original repost is found."
+    },
+    {
+      "company": "TruEvan Technologies",
+      "title": "Principal Architect",
+      "source": "https://www.iitjobs.com/job/principal-architect-united-states-518626",
+      "rate": "Not published",
+      "contract": "Remote Corp-to-Corp listed",
+      "status": "Excluded — mandatory domain gap",
+      "evidence": "Cloud, APIs, Java/Spring, containers and event-driven architecture overlap.",
+      "gaps": "Deep Open Banking FDX/data-sharing/consent architecture and specific API-management expertise not established; above-USD100 rate unverified.",
+      "next_step": "Do not claim Open Banking/FDX experience."
+    },
+    {
+      "company": "Nexlogic Systems",
+      "title": "Integration Architect #85825Y0885",
+      "source": "https://recruiterflow.com/db_aa86fbd0e7295d4f25825705d9b6a524/jobs/83",
+      "rate": "USD125/hour C2C",
+      "contract": "12-month C2C; Brooklyn NY",
+      "status": "Excluded — domain and location gaps",
+      "evidence": "Integration and enterprise architecture overlap.",
+      "gaps": "Required NG911 emergency-communication experience not established; fully remote no-travel terms not stated.",
+      "next_step": "Do not apply on current evidence."
+    },
+    {
+      "company": "Genesis10",
+      "title": "Enterprise Infrastructure Architect",
+      "source": "https://diversityjobs.com/career/14091203/Enterprise-Infrastructure-Architect-Minnesota-Eagan",
+      "rate": "USD110–125/hour C2C",
+      "contract": "Remote CST, historical contract ending Dec31 2025",
+      "status": "Expired",
+      "evidence": "Platform/cloud/infrastructure architecture overlap.",
+      "gaps": "Listing explicitly says expired and historical contract end passed.",
+      "next_step": "Exclude; require current original repost."
+    },
+    {
+      "company": "Stott and May",
+      "title": "Application Cloud Architect #79520",
+      "source": "https://find.stottandmay.com/job/application-cloud-architect-79520",
+      "rate": "Competitive; unpublished",
+      "contract": "B2B, hybrid Brussels",
+      "status": "Excluded — location",
+      "evidence": "Cloud, architecture and interoperability overlap.",
+      "gaps": "EU nationals only, based within two hours of Brussels; hybrid.",
+      "next_step": "Exclude under Connecticut remote requirements."
+    },
+    {
+      "company": "Lighthouse Technology Services",
+      "title": "Enterprise Architect — Consumer Lending #3614970",
+      "source": "https://www.monster.com/job-openings/enterprise-architect-consumer-lending-3614970-ny--5c554832-0a24-43d6-afba-366a665d6793",
+      "rate": "USD100–110/hour",
+      "contract": "W2 only; no C2C/subcontracting",
+      "status": "Excluded — W2",
+      "evidence": "Enterprise architecture, cloud and integration overlap.",
+      "gaps": "Explicit no-C2C conflicts with current instruction; lending-specific qualifications also unestablished.",
+      "next_step": "Do not apply under current terms."
+    },
+    {
+      "company": "Tech Talent International",
+      "title": "GCP Data Architect",
+      "source": "https://www.careers-page.com/tech-talent-international/job/63WRX9YW",
+      "rate": "CAD110–140/hour",
+      "contract": "C2C, Toronto with office visits",
+      "status": "Excluded — location and stack",
+      "evidence": "GCP and cloud architecture overlap.",
+      "gaps": "Office visits required; CAD rather than USD; strong SAP data extraction/integration expertise not established.",
+      "next_step": "Exclude."
+    },
+    {
+      "company": "Cloud Destinations",
+      "title": "VCF Architect / Consultant",
+      "source": "https://www.simplyhired.ca/job/O_y259iAZIpP_H5wJlLwmeyFO8ywhM8YAy05KeDfkobF9dk24EOrag",
+      "rate": "110–130/hour; Canadian listing",
+      "contract": "Contract, remote, Canadian active clearance",
+      "status": "Excluded — clearance and stack",
+      "evidence": "General infrastructure architecture overlap.",
+      "gaps": "Active Canadian clearance and VMware Cloud Foundation/ESXi/vSphere deployment expertise not established.",
+      "next_step": "Do not claim clearance or VMware delivery."
+    },
+    {
+      "company": "Exl Neo Technologies",
+      "title": "Solution Architect — Oracle Unifier",
+      "source": "https://wehired.agency/jobs/solution-architect-oracle-unifier/",
+      "rate": "USD105–110/hour C2C in syndication",
+      "contract": "C2C; Houston onsite/remote ambiguous",
+      "status": "Excluded — mandatory specialist gap",
+      "evidence": "Architecture, enterprise delivery and energy-sector overlap.",
+      "gaps": "Oracle Unifier project-delivery/cost-controls implementation not established; no-travel original unverified.",
+      "next_step": "Do not infer Oracle Unifier experience from Oracle database experience."
+    },
+    {
+      "company": "dBestWorkz LLC",
+      "title": "SAP BDC / SAP Databricks Solution Architect",
+      "source": "https://www.dice.com/job-detail/08aa27ec-c657-468b-92cc-5e5d8257283d",
+      "rate": "USD90–105/hour; above-USD100 rate conditional",
+      "contract": "C2C, 100% remote",
+      "status": "Excluded — mandatory specialist gaps",
+      "evidence": "Cloud and data architecture broadly overlap.",
+      "gaps": "Hands-on SAP BDC, Datasphere, Databricks/PySpark/Delta/Unity Catalog not established.",
+      "next_step": "Do not apply on current evidence."
+    }
+  ]
+}
