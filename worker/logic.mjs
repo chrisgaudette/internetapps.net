@@ -5,6 +5,7 @@ export function canonical(s){const u=new URL(s); if(u.protocol!=='https:')throw 
 export function newState(){return {version:1,settings:{...defaults},jobs:[],runs:[],profile:{facts:{},evidence:[]},resume:null,updatedAt:null};}
 export function assessment(job,state,now=Date.now()){
  const v=job.verification||{}, reasons=[];
+ if(job.deletedAt)reasons.push('Posting was deleted');
  if(!v.originalVerified || !v.originalUrl)reasons.push('Verify the current original posting');
  if(!v.checkedAt || !Number.isFinite(Date.parse(v.checkedAt)) || now-Date.parse(v.checkedAt)>86400000 || Date.parse(v.checkedAt)>now+60000)reasons.push('Refresh posting verification within 24 hours');
  if(v.active!==true)reasons.push('Confirm the job is still open');
@@ -52,8 +53,9 @@ export function ingest(state,items,source='agent',observation={}){
 }
 export const candidate = j => !/full[_ -]?time|permanent/i.test(j.engagement||'') && (!j.location || /usa|united states|america|anywhere|worldwide|global|remote/i.test(j.location)) && !/w-?2 only|no c2c|no corp.to.corp/i.test(j.description||'');
 export function preliminary(job){const text=plain(job.description)+' '+job.salary; if(/\b(no c2c|w-?2 only|cannot.*c2c|no corp.to.corp)\b/i.test(text))return ['Posting excludes C2C'];if(/\b(full.time|permanent)\b/i.test(job.engagement||''))return ['Salaried posting; C2C terms unconfirmed'];return ['Original posting, C2C, rate and mandatory qualifications need verification'];}
-export function reserve(state,id){if(!state.settings.autoApply)throw Error('Automatic applications are paused');const job=state.jobs.find(j=>j.id===id);if(!job)throw Error('Job not found');if(['email_sent','ats_received','interview','accepted','claimed','prior_application','excluded','blocked'].includes(job.status))throw Error('Already submitted or reserved');const a=assessment(job,state);if(!a.ready)throw Error(a.reasons.join('; '));const token=crypto.randomUUID();job.status='claimed';job.claim={token,at:new Date().toISOString()};job.events.push({at:job.claim.at,type:'claimed'});return {token,job};}
+export function reserve(state,id){if(!state.settings.autoApply)throw Error('Automatic applications are paused');const job=state.jobs.find(j=>j.id===id);if(!job)throw Error('Job not found');if(job.deletedAt)throw Error('Posting was deleted');if(['email_sent','ats_received','interview','accepted','claimed','prior_application','excluded','blocked'].includes(job.status))throw Error('Already submitted or reserved');const a=assessment(job,state);if(!a.ready)throw Error(a.reasons.join('; '));const token=crypto.randomUUID();job.status='claimed';job.claim={token,at:new Date().toISOString()};job.events.push({at:job.claim.at,type:'claimed'});return {token,job};}
 export function record(state,id,body){const job=state.jobs.find(j=>j.id===id);if(!job)throw Error('Job not found');const allowed=['email_sent','ats_received','inquiry','blocked','rejected','interview','accepted'];if(!allowed.includes(body.status))throw Error('Invalid application status');if(['email_sent','ats_received'].includes(body.status)){
+ if(job.deletedAt)throw Error('Posting was deleted');
  if(!job.claim || body.claimToken!==job.claim.token)throw Error('Submission requires the application reservation token');
  if(!body.evidence || !body.evidence.reference || !body.evidence.verifiedAt || !body.evidence.kind)throw Error('Verified submission evidence required');
  if(body.status==='email_sent'&&body.evidence.kind!=='gmail_sent')throw Error('Email requires verified Gmail SENT evidence');
@@ -61,3 +63,17 @@ export function record(state,id,body){const job=state.jobs.find(j=>j.id===id);if
  if(body.evidence.conditional===true)throw Error('Conditional inquiries are not qualified applications');
  }job.status=body.status;job.events.push({at:new Date().toISOString(),type:body.status,evidence:body.evidence||null,note:body.note||''});job.nextStep=body.nextStep||'';return job;}
 
+
+export function deletePosting(state,id){
+ const job=state.jobs.find(j=>j.id===id);
+ if(!job)throw Error('Job not found');
+ if(job.status==='claimed')throw Error('Submission is in progress. Wait for it to finish before deleting this posting.');
+ if(!job.deletedAt){job.deletedAt=new Date().toISOString();job.events.push({at:job.deletedAt,type:'deleted',note:'Posting deleted from the active list by the owner'});}
+ return {deleted:true};
+}
+export function restorePosting(state,id){
+ const job=state.jobs.find(j=>j.id===id);
+ if(!job)throw Error('Job not found');
+ if(job.deletedAt){job.deletedAt=null;job.events.push({at:new Date().toISOString(),type:'restored',note:'Posting restored by the owner'});}
+ return {restored:true};
+}

@@ -33,3 +33,7 @@ Routine discovery/application updates go to persistent storage and need no deplo
 ## Discovery dates
 
 Each new nonhistorical job records `foundAt` when it first enters the pipeline. Successful feed crawls record `lastCrawledAt` for every returned job, including duplicates, without resetting first discovery, status, submission history or daily lead counts. Manual imports do not imply a feed crawl. Historical imports have no inferred discovery date. Older nonhistorical records use their original `createdAt` as first discovery; absent crawl dates display Not recorded until a future crawl actually returns that job. Dates in the dashboard use America/New_York. Source publication, discovery, crawl and verification dates are separate.
+
+## Deleted postings
+
+`POST /api/jobs/delete` `{id}` removes a posting from active views and records `deletedAt` while preserving its identity, dates and application evidence for deduplication. Active claimed submissions cannot be deleted until finished or safely released. Deleted postings remain suppressed when seen in future crawls or imports, cannot be queued, claimed or reviewed, and are excluded from active lead/readiness counts. `POST /api/jobs/restore` `{id}` restores the existing record without resetting prior status or history. The owner can confirm Delete posting in the detail panel and restore from the Deleted tab. Agents must honor `deletedAt` and never restore a posting without an owner request.
