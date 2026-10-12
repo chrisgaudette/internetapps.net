@@ -32,7 +32,24 @@ export function assessment(job,state,now=Date.now()){
  return {score,ready:reasons.length===0,reasons,matched:criteria.filter(supported).length,total:criteria.length,interviewProbability:null};
 }
 export function answer(q,profile){const fact=q.factKey&&profile.facts[q.factKey];if(fact && fact.verified===true && fact.value!==undefined)return {supported:true,value:fact.value,evidence:fact.source};return {supported:false,value:null,evidence:null};}
-export function ingest(state,items,source='agent'){let added=0;for(const item of items){if(!item.title||!item.company||!item.url)continue;const url=canonical(item.url);const duplicate=state.jobs.find(j=>canonical(j.url)===url || (item.requisitionId&&j.requisitionId===item.requisitionId&&j.company.toLowerCase()===item.company.toLowerCase()));if(duplicate)continue;state.jobs.push({...item,id:crypto.randomUUID(),url,source:item.source||source,description:plain(item.description).slice(0,16000),createdAt:new Date().toISOString(),discoveredDay:easternDay(),status:item.historical?'prior_application':(candidate(item)?'review':'excluded'),events:item.historical?(item.events||[]).filter(e=>e.type==='prior_application'&&e.evidence?.reference):[]});added++;}return added;}
+export function ingest(state,items,source='agent',observation={}){
+ let added=0;
+ const observedAt=new Date().toISOString();
+ const crawledAt=observation.crawledAt||null;
+ for(const item of items){
+  if(!item.title||!item.company||!item.url)continue;
+  const url=canonical(item.url);
+  const duplicate=state.jobs.find(j=>canonical(j.url)===url || (item.requisitionId&&j.requisitionId===item.requisitionId&&j.company.toLowerCase()===item.company.toLowerCase()));
+  if(duplicate){
+   // A repeat crawl observes an existing job; it is not a new discovery or application.
+   if(crawledAt){duplicate.lastCrawledAt=crawledAt;duplicate.foundAt??=duplicate.historical?null:duplicate.createdAt;}
+   continue;
+  }
+  state.jobs.push({...item,id:crypto.randomUUID(),url,source:item.source||source,description:plain(item.description).slice(0,16000),createdAt:observedAt,foundAt:item.historical?null:observedAt,lastCrawledAt:crawledAt,discoveredDay:easternDay(),status:item.historical?'prior_application':(candidate(item)?'review':'excluded'),events:item.historical?(item.events||[]).filter(e=>e.type==='prior_application'&&e.evidence?.reference):[]});
+  added++;
+ }
+ return added;
+}
 export const candidate = j => !/full[_ -]?time|permanent/i.test(j.engagement||'') && (!j.location || /usa|united states|america|anywhere|worldwide|global|remote/i.test(j.location)) && !/w-?2 only|no c2c|no corp.to.corp/i.test(j.description||'');
 export function preliminary(job){const text=plain(job.description)+' '+job.salary; if(/\b(no c2c|w-?2 only|cannot.*c2c|no corp.to.corp)\b/i.test(text))return ['Posting excludes C2C'];if(/\b(full.time|permanent)\b/i.test(job.engagement||''))return ['Salaried posting; C2C terms unconfirmed'];return ['Original posting, C2C, rate and mandatory qualifications need verification'];}
 export function reserve(state,id){if(!state.settings.autoApply)throw Error('Automatic applications are paused');const job=state.jobs.find(j=>j.id===id);if(!job)throw Error('Job not found');if(['email_sent','ats_received','interview','accepted','claimed','prior_application','excluded','blocked'].includes(job.status))throw Error('Already submitted or reserved');const a=assessment(job,state);if(!a.ready)throw Error(a.reasons.join('; '));const token=crypto.randomUUID();job.status='claimed';job.claim={token,at:new Date().toISOString()};job.events.push({at:job.claim.at,type:'claimed'});return {token,job};}

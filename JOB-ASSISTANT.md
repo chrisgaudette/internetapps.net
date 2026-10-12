@@ -29,3 +29,7 @@ Use Sites get_site service token only with the literal returned Site origin via 
 Routine discovery/application updates go to persistent storage and need no deploy. Preserve the static legacy tracker and synchronize meaningful submissions there when appropriate. Never put résumés, facts, private mail or credentials in source. Build: `node scripts/build-job-assistant.mjs`; tests: `node --test tests/job-assistant.test.mjs`. The Worker embeds all retained website assets. Sites packages the generated Worker and schema migrations; schema SQL is not executed in request handlers.
 
 - `POST /api/jobs/answer` `{id,questionIndex,value}` stores an answer entered by the user in the private job workspace. Never have the agent use this endpoint to invent an answer.
+
+## Discovery dates
+
+Each new nonhistorical job records `foundAt` when it first enters the pipeline. Successful feed crawls record `lastCrawledAt` for every returned job, including duplicates, without resetting first discovery, status, submission history or daily lead counts. Manual imports do not imply a feed crawl. Historical imports have no inferred discovery date. Older nonhistorical records use their original `createdAt` as first discovery; absent crawl dates display Not recorded until a future crawl actually returns that job. Dates in the dashboard use America/New_York. Source publication, discovery, crawl and verification dates are separate.
