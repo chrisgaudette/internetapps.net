@@ -1,0 +1,18 @@
+import assert from 'node:assert/strict';
+import {newState,assessment,ingest,preliminary,reserve,deletePosting} from '../worker/logic.mjs';
+const s=newState();s.resume={bytes:100};s.profile.evidence=[{id:'cloud'}];
+const job={title:'Cloud Architect',company:'Example',url:'https://example.org/w2',engagement:'Contract W2',location:'US Remote',description:'W-2 only, no C2C. Cloud architecture required.',salary:'USD 125/hour',criteria:[{requirement:'Cloud architecture',mandatory:true,matched:true,evidenceId:'cloud',quote:'Cloud architecture required'}],questions:[],route:{type:'ats',url:'https://example.org/w2/apply'},verification:{originalVerified:true,originalUrl:'https://example.org/w2',checkedAt:new Date().toISOString(),active:true,c2c:false,w2:true,remoteCT:true,noTravel:true,hoursCompatible:true,currency:'USD',unit:'hour',minimumRate:125,termsEvidence:'W-2 only, USD125/hour, remote CT, no travel, 40 hours',criteriaComplete:true,questionsReviewed:true}};
+assert.equal(assessment(job,s).ready,false,'W2 needs explicit opt-in');
+ingest(s,[job]);assert.equal(s.jobs[0].status,'excluded');
+s.settings.allowW2=true;
+assert.equal(assessment(job,s).ready,true,'verified W2 eligible after opt-in');
+assert(!preliminary(job,s.settings).some(x=>x==='Posting excludes C2C'));
+for(const v of [{w2:false},{w2:'true'},{minimumRate:100},{unit:'year'},{remoteCT:false},{noTravel:false},{hoursCompatible:false},{criteriaComplete:false},{questionsReviewed:false}])assert.equal(assessment({...job,verification:{...job.verification,...v}},s).ready,false,JSON.stringify(v));
+assert.equal(assessment({...job,criteria:[{...job.criteria[0],evidenceId:'missing'}]},s).ready,false);
+assert.equal(assessment({...job,verification:{...job.verification,w2:false,c2c:true}},s).ready,true,'C2C retained');
+assert.equal(assessment({...job,questions:[{label:'Required answer',required:true}]},s).ready,false);
+ingest(s,[{...job,url:'https://example.org/w2-new'}]);assert.equal(s.jobs[1].status,'review','new W2 leads admitted');
+ingest(s,[{...job,url:'https://example.org/foreign',location:'Germany'},{...job,url:'https://example.org/salary',engagement:'Full-Time',salary:'USD200000/year'}]);assert.equal(s.jobs[2].status,'excluded');assert.equal(s.jobs[3].status,'excluded');
+deletePosting(s,s.jobs[1].id);assert.equal(assessment(s.jobs[1],s).ready,false);assert.throws(()=>reserve(s,s.jobs[1].id),/deleted/);
+const active={...job,url:'https://example.org/claim'};ingest(s,[active]);const claim=reserve(s,s.jobs.at(-1).id);assert(claim.token);assert.throws(()=>reserve(s,s.jobs.at(-1).id),/submitted or reserved/);
+console.log('W-2 opt-in, hourly rate, mandatory criteria, C2C, deletion and claim safeguards passed');

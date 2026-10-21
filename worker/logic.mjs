@@ -1,4 +1,4 @@
-export const defaults = {dailyTarget:10,matchThreshold:90,autoApply:true,linkedin:false,indeed:false,greenhouseBoards:[]};
+export const defaults = {dailyTarget:10,matchThreshold:90,autoApply:true,allowW2:false,linkedin:false,indeed:false,greenhouseBoards:[]};
 export const easternDay = (now=new Date()) => new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).format(now);
 export const plain = s => String(s||'').replace(/<[^>]*>/g,' ').replace(/&nbsp;|&#160;/g,' ').replace(/&amp;/g,'&').replace(/\s+/g,' ').trim();
 export function canonical(s){const u=new URL(s); if(u.protocol!=='https:')throw Error('HTTPS source required'); if(/^(localhost|127\.|10\.|192\.168\.|169\.254\.)/i.test(u.hostname))throw Error('Public source required'); for(const k of [...u.searchParams.keys()])if(/^utm_|^(source|ref|trk)$/i.test(k))u.searchParams.delete(k);u.hash=''; return u.toString().replace(/\/$/,'');}
@@ -9,7 +9,7 @@ export function assessment(job,state,now=Date.now()){
  if(!v.originalVerified || !v.originalUrl)reasons.push('Verify the current original posting');
  if(!v.checkedAt || !Number.isFinite(Date.parse(v.checkedAt)) || now-Date.parse(v.checkedAt)>86400000 || Date.parse(v.checkedAt)>now+60000)reasons.push('Refresh posting verification within 24 hours');
  if(v.active!==true)reasons.push('Confirm the job is still open');
- if(v.c2c!==true)reasons.push('Confirm C2C through InternetApps.net');
+ if(v.c2c!==true && !(state.settings.allowW2===true && v.w2===true))reasons.push(state.settings.allowW2?'Confirm W-2 employment or C2C through InternetApps.net':'Confirm C2C through InternetApps.net');
  if(v.remoteCT!==true || v.noTravel!==true)reasons.push('Confirm Connecticut remote eligibility and no travel');
  if(v.hoursCompatible!==true)reasons.push('Confirm availability fits 40 hours/week');
  if(v.currency!=='USD'||v.unit!=='hour'|| !(Number(v.confirmedRate||v.minimumRate)>100))reasons.push('Confirm a USD hourly rate strictly above $100');
@@ -46,13 +46,13 @@ export function ingest(state,items,source='agent',observation={}){
    if(crawledAt){duplicate.lastCrawledAt=crawledAt;duplicate.foundAt??=duplicate.historical?null:duplicate.createdAt;}
    continue;
   }
-  state.jobs.push({...item,id:crypto.randomUUID(),url,source:item.source||source,description:plain(item.description).slice(0,16000),createdAt:observedAt,foundAt:item.historical?null:observedAt,lastCrawledAt:crawledAt,discoveredDay:easternDay(),status:item.historical?'prior_application':(candidate(item)?'review':'excluded'),events:item.historical?(item.events||[]).filter(e=>e.type==='prior_application'&&e.evidence?.reference):[]});
+  state.jobs.push({...item,id:crypto.randomUUID(),url,source:item.source||source,description:plain(item.description).slice(0,16000),createdAt:observedAt,foundAt:item.historical?null:observedAt,lastCrawledAt:crawledAt,discoveredDay:easternDay(),status:item.historical?'prior_application':(candidate(item,state.settings)?'review':'excluded'),events:item.historical?(item.events||[]).filter(e=>e.type==='prior_application'&&e.evidence?.reference):[]});
   added++;
  }
  return added;
 }
-export const candidate = j => !/full[_ -]?time|permanent/i.test(j.engagement||'') && (!j.location || /usa|united states|america|anywhere|worldwide|global|remote/i.test(j.location)) && !/w-?2 only|no c2c|no corp.to.corp/i.test(j.description||'');
-export function preliminary(job){const text=plain(job.description)+' '+job.salary; if(/\b(no c2c|w-?2 only|cannot.*c2c|no corp.to.corp)\b/i.test(text))return ['Posting excludes C2C'];if(/\b(full.time|permanent)\b/i.test(job.engagement||''))return ['Salaried posting; C2C terms unconfirmed'];return ['Original posting, C2C, rate and mandatory qualifications need verification'];}
+export const candidate = (j,settings={}) => !/full[_ -]?time|permanent/i.test(j.engagement||'') && (!j.location || /usa|united states|america|anywhere|worldwide|global|remote/i.test(j.location)) && (settings.allowW2===true || !/w-?2 only|no c2c|no corp.to.corp/i.test(j.description||''));
+export function preliminary(job,settings={}){const text=plain(job.description)+' '+job.salary; if(settings.allowW2!==true && /\b(no c2c|w-?2 only|cannot.*c2c|no corp.to.corp)\b/i.test(text))return ['Posting excludes C2C'];if(/\b(full.time|permanent)\b/i.test(job.engagement||''))return ['Salaried posting; eligible hourly terms unconfirmed'];return [settings.allowW2?'Original posting, W-2 or C2C engagement, rate and mandatory qualifications need verification':'Original posting, C2C, rate and mandatory qualifications need verification'];}
 export function reserve(state,id){if(!state.settings.autoApply)throw Error('Automatic applications are paused');const job=state.jobs.find(j=>j.id===id);if(!job)throw Error('Job not found');if(job.deletedAt)throw Error('Posting was deleted');if(['email_sent','ats_received','interview','accepted','claimed','prior_application','excluded','blocked'].includes(job.status))throw Error('Already submitted or reserved');const a=assessment(job,state);if(!a.ready)throw Error(a.reasons.join('; '));const token=crypto.randomUUID();job.status='claimed';job.claim={token,at:new Date().toISOString()};job.events.push({at:job.claim.at,type:'claimed'});return {token,job};}
 export function record(state,id,body){const job=state.jobs.find(j=>j.id===id);if(!job)throw Error('Job not found');const allowed=['email_sent','ats_received','inquiry','blocked','rejected','interview','accepted'];if(!allowed.includes(body.status))throw Error('Invalid application status');if(['email_sent','ats_received'].includes(body.status)){
  if(job.deletedAt)throw Error('Posting was deleted');
