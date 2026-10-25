@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Request audit | Internet Apps</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f4f7fb;color:#14243a;font:15px system-ui,-apple-system,"Segoe UI",sans-serif}.wrap{max-width:1500px;margin:auto;padding:32px 20px}h1{margin:0 0 8px}.muted{color:#526174}.panel{background:white;border:1px solid #d9e2ef;border-radius:12px;padding:20px;margin:20px 0}.login{display:flex;gap:10px;max-width:600px}input,button{font:inherit;padding:10px 12px;border:1px solid #aab8ca;border-radius:7px}input{flex:1}button{cursor:pointer;background:#174ea6;color:#fff;border:0}button:disabled{opacity:.5;cursor:default}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;font-size:13px}th,td{text-align:left;vertical-align:top;border-bottom:1px solid #e3e9f1;padding:10px;max-width:360px;overflow-wrap:anywhere}th{position:sticky;top:0;background:#f4f7fb}pre{white-space:pre-wrap;overflow-wrap:anywhere;margin:6px 0}.pager{display:flex;align-items:center;gap:12px;margin-top:16px}#records[hidden],#error[hidden]{display:none}
+</style>
+</head>
+<body><main class="wrap">
+<h1>Request audit</h1>
+<p class="muted">Request metadata and available IP/network details from the past 30 days. Request bodies, query strings, and authorization headers are not collected.</p>
+<section class="panel" aria-label="Admin sign in"><form id="login" class="login"><label for="token">Admin access token</label><input id="token" type="password" autocomplete="current-password" required><button>View requests</button></form><p id="error" role="alert" hidden></p></section>
+<section id="records" class="panel" hidden><p id="summary" class="muted"></p><div class="table-wrap"><table><thead><tr><th>Time (UTC)</th><th>Request</th><th>Status</th><th>Client IP</th><th>IP sources and network context</th><th>Other metadata</th></tr></thead><tbody id="rows"></tbody></table></div><nav class="pager" aria-label="Request pages"><button id="previous" type="button">Previous</button><span id="page"></span><button id="next" type="button">Next</button></nav></section>
+</main>
+<script>
+let token='',currentPage=0;
+const error=document.querySelector('#error'),records=document.querySelector('#records');
+function detailCell(value){const cell=document.createElement('td'),pre=document.createElement('pre');pre.textContent=JSON.stringify(value,null,2);cell.append(pre);return cell;}
+async function load(){
+ error.hidden=true;
+ try{
+  const response=await fetch('/api/admin/requests?page='+currentPage,{headers:{authorization:'Bearer '+token}});
+  if(!response.ok)throw Error(response.status===401?'Invalid admin access token':'Request failed ('+response.status+')');
+  const data=await response.json(),body=document.querySelector('#rows');body.replaceChildren();
+  for(const row of data.requests){
+   const tr=document.createElement('tr');
+   for(const value of [row.recorded_at,row.method+' '+row.path,row.status,row.client_ip||'Not available']){const td=document.createElement('td');td.textContent=value;tr.append(td);}
+   tr.append(detailCell({ip_sources:row.ip_sources,cf_context:row.cf_context}),detailCell({user_agent:row.user_agent,content_type:row.content_type,content_length:row.content_length}));
+   body.append(tr);
+  }
+  document.querySelector('#summary').textContent=data.total+' requests recorded; newest first.';
+  document.querySelector('#page').textContent='Page '+(data.page+1);
+  document.querySelector('#previous').disabled=data.page===0;
+  document.querySelector('#next').disabled=!data.hasMore;
+  records.hidden=false;
+ }catch(e){error.textContent=e.message;error.hidden=false;records.hidden=true;}
+}
+document.querySelector('#login').addEventListener('submit',async event=>{event.preventDefault();token=document.querySelector('#token').value;currentPage=0;await load();});
+document.querySelector('#previous').addEventListener('click',()=>{currentPage--;load();});
+document.querySelector('#next').addEventListener('click',()=>{currentPage++;load();});
+</script>
+</body>
+</html>

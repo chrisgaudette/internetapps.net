@@ -4,6 +4,33 @@ const STATE='primary';
 const json=(v,status=200)=>new Response(JSON.stringify(v),{status,headers:{'content-type':'application/json','cache-control':'no-store','x-content-type-options':'nosniff'}});
 async function read(env){if(!env.DB)throw Error('Database binding unavailable');const row=await env.DB.prepare('SELECT revision,payload FROM job_assistant_state WHERE id=?').bind(STATE).first();return row?{state:JSON.parse(row.payload),revision:row.revision}:{state:newState(),revision:null};}
 async function change(env,fn){for(let i=0;i<6;i++){const {state,revision}=await read(env);const result=fn(state);state.updatedAt=new Date().toISOString();const q=revision===null?env.DB.prepare('INSERT INTO job_assistant_state (id,revision,payload) VALUES (?,0,?) ON CONFLICT(id) DO NOTHING').bind(STATE,JSON.stringify(state)):env.DB.prepare('UPDATE job_assistant_state SET payload=?,revision=revision+1 WHERE id=? AND revision=?').bind(JSON.stringify(state),STATE,revision);const r=await q.run();if(r.meta.changes)return result;}throw Error('Concurrent update; retry safely');}
+async function logRequest(request,env,status){
+ if(!env.DB)return;
+ try{
+  const headers={};
+  for(const name of ['cf-connecting-ip','true-client-ip','x-forwarded-for','x-real-ip','x-client-ip','x-cluster-client-ip','forwarded']){
+   const value=request.headers.get(name);if(value)headers[name]=value.slice(0,512);
+  }
+  const cf=request.cf||{},context={};
+  for(const key of ['country','city','region','regionCode','postalCode','latitude','longitude','timezone','colo','asn','asOrganization','httpProtocol','tlsVersion'])if(cf[key]!==undefined)context[key]=cf[key];
+  await env.DB.prepare('INSERT INTO request_logs (id,recorded_at,method,path,status,client_ip,ip_sources,cf_context,user_agent,content_type,content_length) VALUES (?,?,?,?,?,?,?,?,?,?,?)')
+   .bind(crypto.randomUUID(),new Date().toISOString(),request.method,new URL(request.url).pathname,status,request.headers.get('cf-connecting-ip'),JSON.stringify(headers),JSON.stringify(context),request.headers.get('user-agent')?.slice(0,512)||null,request.headers.get('content-type')?.slice(0,128)||null,request.headers.get('content-length')?.slice(0,20)||null).run();
+  await env.DB.prepare("DELETE FROM request_logs WHERE recorded_at < datetime('now','-30 days')").run();
+ }catch{}
+}
+async function adminRequests(request,env){
+ if(!env.ADMIN_TOKEN)return json({error:'Admin access is not configured'},503);
+ if(request.headers.get('authorization')!=='Bearer '+env.ADMIN_TOKEN)return json({error:'Unauthorized'},401);
+ const url=new URL(request.url),page=Number(url.searchParams.get('page')||0);
+ if(!Number.isSafeInteger(page)||page<0||page>10000)return json({error:'Invalid page'},400);
+ const limit=100,offset=page*limit;
+ const [result,total]=await Promise.all([
+  env.DB.prepare('SELECT id,recorded_at,method,path,status,client_ip,ip_sources,cf_context,user_agent,content_type,content_length FROM request_logs ORDER BY recorded_at DESC LIMIT ? OFFSET ?').bind(limit+1,offset).all(),
+  env.DB.prepare('SELECT COUNT(*) AS total FROM request_logs').first()
+ ]);
+ const rows=result.results||[];
+ return json({requests:rows.slice(0,limit).map(row=>({...row,ip_sources:JSON.parse(row.ip_sources||'{}'),cf_context:JSON.parse(row.cf_context||'{}')})),page,total:total?.total||0,hasMore:rows.length>limit});
+}
 async function remoteJSON(url){const r=await fetch(url,{headers:{'User-Agent':'InternetApps Job Assistant/1.0','Accept':'application/json'},signal:AbortSignal.timeout(18000)});if(!r.ok)throw Error('HTTP '+r.status);return r.json();}
 const relevant=j=>/architect|principal.*engineer|cloud.*engineer|senior.*(java|\.net|software|integration).*|lead.*(software|platform)/i.test(j.title);
 async function crawl(env){const day=easternDay();const {state}=await read(env);let lock;
@@ -14,6 +41,7 @@ async function crawl(env){const day=easternDay();const {state}=await read(env);l
  return change(env,s=>{const run=s.runs.find(r=>r.id===lock.run.id);if(!run)throw Error('Run replaced; retry');results.forEach((r,i)=>{if(r.status==='fulfilled'){const before=s.jobs.length;ingest(s,r.value.jobs,r.value.name,{crawledAt:r.value.crawledAt});const added=s.jobs.slice(before);run.newLeads+=added.filter(j=>j.status!=='excluded').length;run.screened=(run.screened||0)+r.value.jobs.length;run.sources.push({name:r.value.name,url:r.value.url,status:'ok',relevant:r.value.jobs.length,added:added.filter(j=>j.status!=='excluded').length,excluded:added.filter(j=>j.status==='excluded').length});}else run.sources.push({name:sources[i].name,status:'error',error:String(r.reason.message||r.reason)});});run.status='complete';run.finishedAt=new Date().toISOString();run.shortfall=Math.max(0,s.settings.dailyTarget-s.jobs.filter(j=>j.discoveredDay===day&&!j.historical&&!j.deletedAt&&j.status!=='excluded').length);run.note=run.shortfall?'Continue broad employer/recruiter search; '+run.shortfall+' more new relevant leads needed.':'Discovery target met; qualification verification remains separate.';return {run};});
 }
 async function api(request,env,path){if(request.method!=='GET'){const origin=request.headers.get('origin');if(origin&&origin!==new URL(request.url).origin)return json({error:'Cross-origin write rejected'},403);if(Number(request.headers.get('content-length')||0)>2000000)return json({error:'Request too large'},413);}
+ if(path==='/api/admin/requests'&&request.method==='GET')return adminRequests(request,env);
  if(path==='/api/jobs/state'&&request.method==='GET'){const {state}=await read(env);const day=easternDay();return json({...state,today:day,jobs:state.jobs.map(j=>({...j,assessment:assessment(j,state),preliminary:preliminary(j,state.settings),answers:(j.questions||[]).map(q=>({...q,...answer(q,state.profile)}))})),stats:{discovered:state.jobs.filter(j=>j.discoveredDay===day&&!j.historical&&!j.deletedAt&&j.status!=='excluded').length,ready:state.jobs.filter(j=>!j.deletedAt&&assessment(j,state).ready&&!['email_sent','ats_received','interview','accepted','claimed','prior_application','excluded'].includes(j.status)).length,submittedToday:state.jobs.filter(j=>j.events.some(e=>['email_sent','ats_received'].includes(e.type)&&easternDay(new Date(e.at))===day)).length,held:state.jobs.filter(j=>!j.deletedAt&&!assessment(j,state).ready&&!['email_sent','ats_received','interview','accepted','prior_application','excluded'].includes(j.status)).length}});}
  if(path==='/api/jobs/resume'&&request.method==='GET'){const f=await env.BUCKET.get('applicant/resume.docx');return f?new Response(f.body,{headers:{'content-type':'application/vnd.openxmlformats-officedocument.wordprocessingml.document','content-disposition':'attachment; filename="Principal_Architect_Resume.docx"','cache-control':'no-store'}}):json({error:'No résumé uploaded'},404);}
  if(path==='/api/jobs/resume'&&request.method==='PUT'){const bytes=await request.arrayBuffer();if(bytes.byteLength>1000000||bytes.byteLength<100||new Uint8Array(bytes)[0]!==80||new Uint8Array(bytes)[1]!==75)return json({error:'Upload the existing DOCX résumé (max 1 MB)'},400);await env.BUCKET.put('applicant/resume.docx',bytes,{httpMetadata:{contentType:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'}});await change(env,s=>s.resume={filename:'Principal_Architect_Resume.docx',bytes:bytes.byteLength,uploadedAt:new Date().toISOString()});return json({uploaded:true});}
@@ -33,5 +61,13 @@ async function api(request,env,path){if(request.method!=='GET'){const origin=req
  if(path==='/api/jobs/release')return json(await change(env,s=>{const j=s.jobs.find(x=>x.id===b.id);if(!j||!j.claim||j.claim.token!==b.claimToken)throw Error('Reservation token required');j.status='blocked';j.claim=null;j.nextStep=b.reason||'Verify whether a submission happened before retrying';return {released:true};}));
  return json({error:'Route not found'},404);
 }
-export default {async fetch(request,env){const path=new URL(request.url).pathname;try{if(path.startsWith('/api/jobs/'))return await api(request,env,path);if(path==='/jobs'||path==='/jobs/'||path==='/job-crawler.html')return new Response(APP_HTML,{headers:{'content-type':'text/html; charset=utf-8','cache-control':'no-store','x-robots-tag':'noindex, nofollow'}});let key=path==='/'?'/index.html':path;if(key.endsWith('/'))key+='index.html';if(key.startsWith('/dist/'))key=key.slice(5);const asset=STATIC_ASSETS[key];if(!asset)return new Response('Not found',{status:404});const bytes=Uint8Array.from(atob(asset.data),c=>c.charCodeAt(0));return new Response(bytes,{headers:{'content-type':asset.type,'x-content-type-options':'nosniff'}});}catch(e){return json({error:String(e.message||e)},400);}}};
-
+async function handleRequest(request,env){
+const path=new URL(request.url).pathname;
+try{
+ if(path.startsWith('/api/'))return await api(request,env,path);
+ if(path==='/admin'||path==='/admin/')return new Response(ADMIN_HTML,{headers:{'content-type':'text/html; charset=utf-8','cache-control':'no-store','x-robots-tag':'noindex, nofollow','x-content-type-options':'nosniff'}});
+ if(path==='/jobs'||path==='/jobs/'||path==='/job-crawler.html')return new Response(APP_HTML,{headers:{'content-type':'text/html; charset=utf-8','cache-control':'no-store','x-robots-tag':'noindex, nofollow'}});
+ let key=path==='/'?'/index.html':path;if(key.endsWith('/'))key+='index.html';if(key.startsWith('/dist/'))key=key.slice(5);const asset=STATIC_ASSETS[key];if(!asset)return new Response('Not found',{status:404});const bytes=Uint8Array.from(atob(asset.data),c=>c.charCodeAt(0));return new Response(bytes,{headers:{'content-type':asset.type,'x-content-type-options':'nosniff'}});
+}catch(e){return json({error:String(e.message||e)},400);}
+}
+export default {async fetch(request,env){const response=await handleRequest(request,env);await logRequest(request,env,response.status);return response;}};
