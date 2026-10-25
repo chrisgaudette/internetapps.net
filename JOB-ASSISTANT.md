@@ -2,6 +2,8 @@
 
 Private dashboard: `/jobs`. The existing owner-only Sites boundary protects the dashboard, APIs, résumé and answer library. Do not change site audience without adding per-user authorization. Private profile and résumé are uploaded at runtime and are absent from Git.
 
+Request audit: `/admin` provides a token-protected view of request metadata and IP/network details. Configure a high-entropy `ADMIN_TOKEN` Worker secret before use; the token is never stored in the page or sent to the request log. The Worker logs method, path (without query string), status, selected IP-related headers, hosting-platform network context, user-agent, content type and content length. It deliberately does not store request bodies or authorization headers. Logs expire after 30 days. Apply `drizzle/0001_request_logs.sql` to the D1 database before enabling the audit log.
+
 ## Daily operation
 
 The existing `daily-consulting-job-assistant` heartbeat runs at 8 a.m. America/New_York. It calls the hosted discovery endpoint once a day, searches employer and recruiter sites to supplement public feeds, verifies original terms and every mandatory criterion, then submits all qualified jobs using connected Gmail or supported authenticated browser tools. It saves SENT evidence or an ATS receipt. It must stop a submission for missing facts, login or CAPTCHA and continue other jobs.

@@ -8,14 +8,14 @@ async function logRequest(request,env,status){
  if(!env.DB)return;
  try{
   const headers={};
-  for(const name of ['cf-connecting-ip','true-client-ip','x-forwarded-for','x-real-ip','x-client-ip','x-cluster-client-ip','forwarded']){
+  for(const name of ['cf-connecting-ip','cf-pseudo-ipv4','true-client-ip','x-forwarded-for','x-original-forwarded-for','x-real-ip','x-client-ip','x-cluster-client-ip','x-envoy-external-address','fastly-client-ip','x-appengine-user-ip','forwarded']){
    const value=request.headers.get(name);if(value)headers[name]=value.slice(0,512);
   }
   const cf=request.cf||{},context={};
-  for(const key of ['country','city','region','regionCode','postalCode','latitude','longitude','timezone','colo','asn','asOrganization','httpProtocol','tlsVersion'])if(cf[key]!==undefined)context[key]=cf[key];
+  for(const key of ['country','city','region','regionCode','postalCode','latitude','longitude','timezone','colo','asn','asOrganization','httpProtocol','tlsVersion','clientTcpRtt','metroCode','continent','isEUCountry'])if(cf[key]!==undefined)context[key]=cf[key];
   await env.DB.prepare('INSERT INTO request_logs (id,recorded_at,method,path,status,client_ip,ip_sources,cf_context,user_agent,content_type,content_length) VALUES (?,?,?,?,?,?,?,?,?,?,?)')
    .bind(crypto.randomUUID(),new Date().toISOString(),request.method,new URL(request.url).pathname,status,request.headers.get('cf-connecting-ip'),JSON.stringify(headers),JSON.stringify(context),request.headers.get('user-agent')?.slice(0,512)||null,request.headers.get('content-type')?.slice(0,128)||null,request.headers.get('content-length')?.slice(0,20)||null).run();
-  await env.DB.prepare("DELETE FROM request_logs WHERE recorded_at < datetime('now','-30 days')").run();
+  await env.DB.prepare("DELETE FROM request_logs WHERE datetime(recorded_at) < datetime('now','-30 days')").run();
  }catch{}
 }
 async function adminRequests(request,env){
@@ -25,8 +25,8 @@ async function adminRequests(request,env){
  if(!Number.isSafeInteger(page)||page<0||page>10000)return json({error:'Invalid page'},400);
  const limit=100,offset=page*limit;
  const [result,total]=await Promise.all([
-  env.DB.prepare('SELECT id,recorded_at,method,path,status,client_ip,ip_sources,cf_context,user_agent,content_type,content_length FROM request_logs ORDER BY recorded_at DESC LIMIT ? OFFSET ?').bind(limit+1,offset).all(),
-  env.DB.prepare('SELECT COUNT(*) AS total FROM request_logs').first()
+  env.DB.prepare("SELECT id,recorded_at,method,path,status,client_ip,ip_sources,cf_context,user_agent,content_type,content_length FROM request_logs WHERE datetime(recorded_at) >= datetime('now','-30 days') ORDER BY recorded_at DESC LIMIT ? OFFSET ?").bind(limit+1,offset).all(),
+  env.DB.prepare("SELECT COUNT(*) AS total FROM request_logs WHERE datetime(recorded_at) >= datetime('now','-30 days')").first()
  ]);
  const rows=result.results||[];
  return json({requests:rows.slice(0,limit).map(row=>({...row,ip_sources:JSON.parse(row.ip_sources||'{}'),cf_context:JSON.parse(row.cf_context||'{}')})),page,total:total?.total||0,hasMore:rows.length>limit});
