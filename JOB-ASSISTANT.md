@@ -14,7 +14,7 @@ Public GET feeds are Remotive (attribution retained, 24-hour delay, one fetch/da
 
 Use Sites get_site service token only with the literal returned Site origin via `OAI-Sites-Authorization: Bearer TOKEN`. Never persist the token. Never infer successful submission from a queue, click, or HTTP fetch. All mutations accept JSON POST except binary résumé PUT. State changes use database compare-and-swap revisions to prevent concurrent lost updates.
 
-- `GET /api/jobs/state` — jobs, verified profile, settings, résumé metadata, daily stats and logs.
+- `GET /api/jobs/state` — jobs, verified profile, settings, résumé metadata, daily stats, discovery logs, and the most recent 100 dashboard API request records (timestamp, method, path, and Cloudflare client IP when available).
 - `POST /api/jobs/run` `{}` — daily idempotent live feed crawl. Retry after a failed/stale run; no repeated polling of feeds.
 - `POST /api/jobs/import` `{jobs:[{company,title,url,description,source,salary,location,engagement,requisitionId,route}]}` — canonical URL / company-requisition deduplication. Import broader web search findings here.
 - `POST /api/jobs/profile` `{facts:{KEY:{value,verified:true,source}},evidence:[{id,text,source}]}` — private verified applicant facts and résumé excerpts only.
