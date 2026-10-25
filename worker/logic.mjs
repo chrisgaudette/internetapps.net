@@ -2,7 +2,8 @@ export const defaults = {dailyTarget:10,matchThreshold:90,autoApply:true,allowW2
 export const easternDay = (now=new Date()) => new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).format(now);
 export const plain = s => String(s||'').replace(/<[^>]*>/g,' ').replace(/&nbsp;|&#160;/g,' ').replace(/&amp;/g,'&').replace(/\s+/g,' ').trim();
 export function canonical(s){const u=new URL(s); if(u.protocol!=='https:')throw Error('HTTPS source required'); if(/^(localhost|127\.|10\.|192\.168\.|169\.254\.)/i.test(u.hostname))throw Error('Public source required'); for(const k of [...u.searchParams.keys()])if(/^utm_|^(source|ref|trk)$/i.test(k))u.searchParams.delete(k);u.hash=''; return u.toString().replace(/\/$/,'');}
-export function newState(){return {version:1,settings:{...defaults},jobs:[],runs:[],profile:{facts:{},evidence:[]},resume:null,updatedAt:null};}
+export function newState(){return {version:1,settings:{...defaults},jobs:[],runs:[],requests:[],profile:{facts:{},evidence:[]},resume:null,updatedAt:null};}
+export function recordRequest(state,{method,path,ip}){const entry={at:new Date().toISOString(),method,path,ip:typeof ip==='string'&&ip?ip.slice(0,64):null};state.requests??=[];state.requests.unshift(entry);state.requests=state.requests.slice(0,100);return entry;}
 export function assessment(job,state,now=Date.now()){
  const v=job.verification||{}, reasons=[];
  if(job.deletedAt)reasons.push('Posting was deleted');
